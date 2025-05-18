@@ -41,9 +41,15 @@ on:
             run: npm start
 
           - name: Commit the changes to GitHub
+            env:
+              GITHUB_TOKEN: ${{secrets.TOKEN}}
+              GITHUB_EMAIL: ${{secrets.USER_GITHUB_EMAIL}}
+              GITHUB_USER: ${{secrets.USER_NAME}}
             run: |
-              git config --global user.name "github-actions[bot]"
-              git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+              git config --global user.name "${GITHUB_USER}"
+              git config --global user.email "${GITHUB_EMAIL}"
+              
+              git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${{github.repository}}
               git add last-run.txt
               git commit -m "Update with the latest markdown file"
               git push
