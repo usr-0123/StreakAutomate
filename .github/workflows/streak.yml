@@ -55,3 +55,13 @@ jobs:
           git add  ${{secrets.MARKDOWN_FILE}}.md
           git commit -m "Update with the latest markdown file"
           git push
+
+      - name: Close workflow at this point
+        if: always()
+        env:
+          GITHUB_TOKEN: ${{secrets.TOKEN}}
+        run: |
+          curl -X POST \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github+json" \
+            https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/cancel
