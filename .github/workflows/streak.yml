@@ -36,6 +36,14 @@ on:
               SUBJECT: ${{secrets.EMAIL_SUBJECT}}
               DIRECTORY_NAME: ${{secrets.OUTPUT_MARKDOWN_DIRECTORY}}
               FILE_NAME: ${{secrets.MARKDOWN_FILE}}
-              GITHUB_REPOSITORY_URL: ${{secrets.GITHUB_REPO_URL}}
+              GITHUB_REPOSITORY_URL: ${{secrets.REPO_URL}}
 
             run: npm start
+
+          - name: Commit the changes to GitHub
+            run: |
+              git config --global user.name "github-actions[bot]"
+              git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+              git add last-run.txt
+              git commit -m "Update with the latest markdown file"
+              git push
