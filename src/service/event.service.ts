@@ -5,11 +5,9 @@ export class GitHubEvent {
     private directory!: string;
     private filename!: string;
     private filePath!: string;
-    private unique!: string;
 
     constructor(directory:string, filename: string) {
-        this.unique = (String(new Date().getMonth() + 1).padStart(2, '0') + String(new Date().getDay().toString().padStart(2, '0')));
-        this.filename = filename + this.unique + ".md";
+        this.filename = filename + ".md";
         this.directory = directory;
 
         if (!fs.existsSync(this.directory)) {

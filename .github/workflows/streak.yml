@@ -8,8 +8,10 @@ on:
     branch: master
 
     jobs:
-      run-day-streak-cron:
+      deploy:
+        name: Run day streak cron
         runs-on: ubuntu-latest
+        environment: Node
 
         steps:
           - name: Checkout Repository
@@ -50,6 +52,6 @@ on:
               git config --global user.email "${GITHUB_EMAIL}"
               
               git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${{github.repository}}
-              git add last-run.txt
+              git add  ${{secrets.MARKDOWN_FILE}}.md
               git commit -m "Update with the latest markdown file"
               git push
