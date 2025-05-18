@@ -52,7 +52,7 @@ jobs:
           git config --global user.email "${GITHUB_EMAIL}"
           
           git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${{github.repository}}
-          git add  ${{secrets.MARKDOWN_FILE}}.md
+          git add  ./directory/${{secrets.MARKDOWN_FILE}}.md
           git commit -m "Update with the latest markdown file"
           git push
 
