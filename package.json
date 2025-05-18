@@ -1,0 +1,28 @@
+{
+  "name": "GitHub Activities",
+  "author": "Lewis",
+  "version": "1.0.0",
+  "description": "Automate a reminder for a daily activity.",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "npm run build && nodemon dist/index.js",
+    "dev": "npm run build && npm run start"
+  },
+  "dependencies": {
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "nodemailer": "^7.0.3",
+    "pino": "^9.6.0",
+    "pino-pretty": "^13.0.0"
+  },
+  "devDependencies": {
+    "@types/nodemailer": "^6.4.17",
+    "typescript": "^5.5.3",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.13.5",
+    "nodemon": "^3.1.10",
+    "ts-node": "^10.9.2"
+  },
+  "private": true
+}
