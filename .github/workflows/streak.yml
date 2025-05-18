@@ -50,6 +50,7 @@ jobs:
           GITHUB_REPO: ${{github.repository}}
 
         run: |
+          git checkout -b feature
           git config --global user.name "${GITHUB_USER}"
           git config --global user.email "${GITHUB_EMAIL}"
           git remote set-url origin https://x-access-token:${GH_PAT}@github.com/${{github.repository}}
