@@ -1,5 +1,6 @@
 import * as fs from "node:fs";
 import path from "node:path";
+import {logger} from "../utils/logger";
 
 export class GitHubEvent {
     private directory!: string;
@@ -18,7 +19,11 @@ export class GitHubEvent {
     }
 
     private createFile() {
-        const filePath = path.join(this.directory, this.filename + ".md");
+        logger.info("Creating new file");
+
+        const filePath = path.join(this.directory, this.filename);
+
+        logger.info("File path:", filePath);
 
         if (!fs.existsSync(filePath)) {
             fs.writeFileSync(filePath, "", 'utf8');
@@ -28,7 +33,7 @@ export class GitHubEvent {
     }
 
     public appendContent(content: string) {
-
+        logger.info("Appending new content into file path: " + this.filePath);
 
         if (!fs.existsSync(this.filePath)) {
             this.createFile();
