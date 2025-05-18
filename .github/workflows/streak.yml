@@ -8,50 +8,49 @@ on:
     branch: master
 
     jobs:
-      deploy:
-        name: Run day streak cron
-        runs-on: ubuntu-latest
-        environment: Node
+      name: Run day streak cron
+      runs-on: ubuntu-latest
+      environment: Node
 
-        steps:
-          - name: Checkout Repository
-            uses: actions/checkout@v3
+      steps:
+        - name: Checkout Repository
+          uses: actions/checkout@v3
 
-          - name: Set up Node typescript environment
-            uses: actions/setup-node@v3
-            with:
-              node-version: 18
+        - name: Set up Node typescript environment
+          uses: actions/setup-node@v3
+          with:
+            node-version: 18
 
-          - name: Install project's dependencies
-            run: npm install
+        - name: Install project's dependencies
+          run: npm install
 
-          - name: Build TypeScript project
-            run: npm run build
+        - name: Build TypeScript project
+          run: npm run build
 
-          - name: Run the project
-            env:
-              EMAIL_USER: ${{secrets.GMAIL_SERVICE_EMAIL}}
-              EMAIL_PASS: ${{secrets.GMAIL_SERVICE_PASSWORD}}
-              EMAIL_RECP: ${{secrets.EMAIL_RECEPIENT}}
-              EMAIL_RECP_NAME=: ${{secrets.EMAIL_RECEPIENT_NAME}}
-              EMAIL_RECP_DEFAULT: ${{secrets.DEFAULT_EMAIL_RECEPIENT}}
-              SUBJECT: ${{secrets.EMAIL_SUBJECT}}
-              DIRECTORY_NAME: ${{secrets.OUTPUT_MARKDOWN_DIRECTORY}}
-              FILE_NAME: ${{secrets.MARKDOWN_FILE}}
-              GITHUB_REPOSITORY_URL: ${{secrets.REPO_URL}}
+        - name: Run the project
+          env:
+            EMAIL_USER: ${{secrets.GMAIL_SERVICE_EMAIL}}
+            EMAIL_PASS: ${{secrets.GMAIL_SERVICE_PASSWORD}}
+            EMAIL_RECP: ${{secrets.EMAIL_RECEPIENT}}
+            EMAIL_RECP_NAME=: ${{secrets.EMAIL_RECEPIENT_NAME}}
+            EMAIL_RECP_DEFAULT: ${{secrets.DEFAULT_EMAIL_RECEPIENT}}
+            SUBJECT: ${{secrets.EMAIL_SUBJECT}}
+            DIRECTORY_NAME: ${{secrets.OUTPUT_MARKDOWN_DIRECTORY}}
+            FILE_NAME: ${{secrets.MARKDOWN_FILE}}
+            GITHUB_REPOSITORY_URL: ${{secrets.REPO_URL}}
 
-            run: npm start
+          run: npm start
 
-          - name: Commit the changes to GitHub
-            env:
-              GITHUB_TOKEN: ${{secrets.TOKEN}}
-              GITHUB_EMAIL: ${{secrets.USER_GITHUB_EMAIL}}
-              GITHUB_USER: ${{secrets.USER_NAME}}
-            run: |
-              git config --global user.name "${GITHUB_USER}"
-              git config --global user.email "${GITHUB_EMAIL}"
-              
-              git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${{github.repository}}
-              git add  ${{secrets.MARKDOWN_FILE}}.md
-              git commit -m "Update with the latest markdown file"
-              git push
+        - name: Commit the changes to GitHub
+          env:
+            GITHUB_TOKEN: ${{secrets.TOKEN}}
+            GITHUB_EMAIL: ${{secrets.USER_GITHUB_EMAIL}}
+            GITHUB_USER: ${{secrets.USER_NAME}}
+          run: |
+            git config --global user.name "${GITHUB_USER}"
+            git config --global user.email "${GITHUB_EMAIL}"
+            
+            git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${{github.repository}}
+            git add  ${{secrets.MARKDOWN_FILE}}.md
+            git commit -m "Update with the latest markdown file"
+            git push
