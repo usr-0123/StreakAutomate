@@ -44,14 +44,15 @@ jobs:
 
       - name: Commit the changes to GitHub
         env:
-          GITHUB_TOKEN: ${{secrets.TOKEN}}
+          GH_PAT: ${{secrets.TOKEN}}
           GITHUB_EMAIL: ${{secrets.USER_GITHUB_EMAIL}}
           GITHUB_USER: ${{secrets.USER_NAME}}
+          GITHUB_REPO: ${{github.repository}}
 
         run: |
           git config --global user.name "${GITHUB_USER}"
           git config --global user.email "${GITHUB_EMAIL}"
-          git remote set-url origin https://x-access-token:${{secrets.TOKEN}}@github.com/${{secrets.REPO_URL}}
+          git remote set-url origin https://x-access-token:${GH_PAT}@github.com/${GITHUB_REPO}
           git add  ./directory/${{secrets.MARKDOWN_FILE}}.md
           git commit -m "Update with the latest markdown file"
           git push
@@ -59,9 +60,9 @@ jobs:
       - name: Close workflow at this point
         if: always()
         env:
-          GITHUB_TOKEN: ${{secrets.TOKEN}}
+          GH_PAT: ${{secrets.TOKEN}}
         run: |
           curl -X POST \
-            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Authorization: Bearer ${GH_PAT}" \
             -H "Accept: application/vnd.github+json" \
             https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/cancel
