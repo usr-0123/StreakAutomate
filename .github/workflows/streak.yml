@@ -1,0 +1,41 @@
+name: Run daily GitHub streak
+
+on:
+  workflow_dispatch:
+    schedule:
+      - cron: "0 0 * * *"
+
+    branch: master
+
+    jobs:
+      run-day-streak-cron:
+        runs-on: ubuntu-latest
+
+        steps:
+          - name: Checkout Repository
+            uses: actions/checkout@v3
+
+          - name: Set up Node typescript environment
+            uses: actions/setup-node@v3
+            with:
+              node-version: 18
+
+          - name: Install project's dependencies
+            run: npm install
+
+          - name: Build TypeScript project
+            run: npm run build
+
+          - name: Run the project
+            env:
+              EMAIL_USER: ${{secrets.GMAIL_SERVICE_EMAIL}}
+              EMAIL_PASS: ${{secrets.GMAIL_SERVICE_PASSWORD}}
+              EMAIL_RECP: ${{secrets.EMAIL_RECEPIENT}}
+              EMAIL_RECP_NAME=: ${{secrets.EMAIL_RECEPIENT_NAME}}
+              EMAIL_RECP_DEFAULT: ${{secrets.DEFAULT_EMAIL_RECEPIENT}}
+              SUBJECT: ${{secrets.EMAIL_SUBJECT}}
+              DIRECTORY_NAME: ${{secrets.OUTPUT_MARKDOWN_DIRECTORY}}
+              FILE_NAME: ${{secrets.MARKDOWN_FILE}}
+              GITHUB_REPOSITORY_URL: ${{secrets.GITHUB_REPO_URL}}
+
+            run: npm start
