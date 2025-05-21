@@ -13,6 +13,7 @@ export class ConfigService {
     private _directory_name!: string;
     private _file_name!: string;
     private _github_repo_url!: string;
+    private readonly _github_token: string;
 
     private constructor() {
         this._email_user = process.env.EMAIL_USER || "";
@@ -22,7 +23,8 @@ export class ConfigService {
         this._email_subject = process.env.SUBJECT || "GitHub Actions - Automated Email (TypeScript)";
         this._directory_name = process.env.DIRECTORY_NAME || "";
         this._file_name = process.env.FILE_NAME || "";
-        this._github_repo_url = process.env.GITHUB_REPOSITORY_URL || "";
+        this._github_repo_url = process.env.GITHUB_REPO || "";
+        this._github_token = process.env.GITHUB_TOKEN || "No token"
     }
 
     // Singleton pattern: access globally
@@ -40,5 +42,6 @@ export class ConfigService {
     public get emailSubject(): string {return this._email_subject;}
     public get directoryName(): string {return this._directory_name;}
     public get fileName(): string {return this._file_name;}
-    public get gitHubUrl(): string {return this._github_repo_url;}
+    public get gitHubUrl(): string {console.log(this._github_repo_url); return this._github_repo_url;}
+    public get githubToken(): string {console.log(this._github_token);return this._github_token}
 }

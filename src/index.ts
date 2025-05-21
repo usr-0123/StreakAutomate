@@ -47,3 +47,7 @@ event = taskService.getEvent();
 // Create a .md file and record this as a GitHub activity
 logger.info("Writing event details into an md file...");
 eventService.appendContent(`# Activity: ${event.task}`);
+
+// Check env variables
+console.log(instance.githubToken);
+console.log(instance.gitHubUrl);

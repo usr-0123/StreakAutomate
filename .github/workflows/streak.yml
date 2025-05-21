@@ -49,6 +49,9 @@ jobs:
           FILE_NAME: ${{secrets.MARKDOWN_FILE}}
           GITHUB_REPOSITORY_URL: ${{secrets.REPO_URL}}
 
+          GH_PAT: ${{secrets.TOKEN}}
+          GITHUB_REPO: ${{github.repository}}
+
         run: npm start
 
       - name: Configure Git
