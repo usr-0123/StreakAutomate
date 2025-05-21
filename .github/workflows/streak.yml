@@ -68,7 +68,6 @@ jobs:
         run: |
           git add  "./directory/${{secrets.MARKDOWN_FILE}}.md"
           git commit -m "Update with the latest markdown file"
-          git push origin HEAD
           git push https://x-access-token:${GH_PAT}@github.com/${GITHUB_REPO}.git HEAD:master
 
       - name: Close workflow at this point
