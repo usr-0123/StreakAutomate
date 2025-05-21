@@ -66,6 +66,8 @@ jobs:
           GITHUB_REPO: ${{github.repository}}
 
         run: |
+          echo "::debug::REPO=${GITHUB_REPO}"
+          echo "::debug::TOKEN=${GH_PAT}"
           git add  "./directory/${{secrets.MARKDOWN_FILE}}.md"
           git commit -m "Update with the latest markdown file"
           git push https://x-access-token:${GH_PAT}@github.com/${GITHUB_REPO}.git HEAD:master
