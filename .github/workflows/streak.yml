@@ -51,20 +51,25 @@ jobs:
 
         run: npm start
 
+      - name: Configure Git
+        env:
+          GITHUB_EMAIL: ${{secrets.USER_GITHUB_EMAIL}}
+          GITHUB_USER: ${{secrets.USER_NAME}}
+
+        run: |
+          git config user.name "${GITHUB_USER}"
+          git config user.email "${GITHUB_EMAIL}"
+
       - name: Commit the changes to GitHub
         env:
           GH_PAT: ${{secrets.TOKEN}}
-          GITHUB_EMAIL: ${{secrets.USER_GITHUB_EMAIL}}
-          GITHUB_USER: ${{secrets.USER_NAME}}
           GITHUB_REPO: ${{github.repository}}
 
         run: |
-          git config --global user.name "${GITHUB_USER}"
-          git config --global user.email "${GITHUB_EMAIL}"
-          git remote set-url origin https://x-access-token:${GH_PAT}@github.com/${{github.repository}}
           git add  "./directory/${{secrets.MARKDOWN_FILE}}.md"
           git commit -m "Update with the latest markdown file"
           git push origin HEAD
+          git push https://x-access-token:${GH_PAT}@github.com/${{GITHUB_REPO}}.git HEAD:master
 
       - name: Close workflow at this point
         if: always()
